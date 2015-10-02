@@ -80,8 +80,6 @@ func TestLegendAlignment(t *testing.T) {
 			},
 		},
 		&recorder.SetColor{},
-		&recorder.Push{},
-		&recorder.Rotate{Angle: 0},
 		&recorder.FillString{
 			Font:   string("Times-Roman"),
 			Size:   10.822510822510822,
@@ -89,7 +87,6 @@ func TestLegendAlignment(t *testing.T) {
 			Y:      30.82251082251082,
 			String: "A",
 		},
-		&recorder.Pop{},
 		&recorder.SetColor{
 			Color: color.Gray16{},
 		},
@@ -119,8 +116,6 @@ func TestLegendAlignment(t *testing.T) {
 			},
 		},
 		&recorder.SetColor{},
-		&recorder.Push{},
-		&recorder.Rotate{Angle: 0},
 		&recorder.FillString{
 			Font:   string("Times-Roman"),
 			Size:   10.822510822510822,
@@ -128,7 +123,6 @@ func TestLegendAlignment(t *testing.T) {
 			Y:      20.82251082251082,
 			String: "B",
 		},
-		&recorder.Pop{},
 		&recorder.SetColor{
 			Color: color.Gray16{
 				Y: uint16(0),
@@ -160,8 +154,6 @@ func TestLegendAlignment(t *testing.T) {
 			},
 		},
 		&recorder.SetColor{},
-		&recorder.Push{},
-		&recorder.Rotate{Angle: 0},
 		&recorder.FillString{
 			Font:   string("Times-Roman"),
 			Size:   10.822510822510822,
@@ -169,7 +161,6 @@ func TestLegendAlignment(t *testing.T) {
 			Y:      10.822510822510822,
 			String: "C",
 		},
-		&recorder.Pop{},
 		&recorder.SetColor{
 			Color: color.Gray16{},
 		},
@@ -199,8 +190,6 @@ func TestLegendAlignment(t *testing.T) {
 			},
 		},
 		&recorder.SetColor{},
-		&recorder.Push{},
-		&recorder.Rotate{Angle: 0},
 		&recorder.FillString{
 			Font:   string("Times-Roman"),
 			Size:   10.822510822510822,
@@ -208,7 +197,6 @@ func TestLegendAlignment(t *testing.T) {
 			Y:      0.8225108225108215,
 			String: "D",
 		},
-		&recorder.Pop{},
 	}
 
 	if !reflect.DeepEqual(got, want) {
@@ -240,7 +228,7 @@ func printActionDiff(got, want []recorder.Action) string {
 		}
 	}
 	if len(want) > len(got) {
-		fmt.Fprintf(&buf, "line %d:\n\tgot: %s\n\twant is empty", len(got), want[len(got)].Call())
+		fmt.Fprintf(&buf, "line %d:\n\twant: %s\n\tgot is empty", len(got), want[len(got)].Call())
 	}
 	return buf.String()
 }
