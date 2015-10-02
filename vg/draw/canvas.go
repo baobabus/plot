@@ -33,6 +33,7 @@ type TextStyle struct {
 	// Font is the font description.
 	Font vg.Font
 
+<<<<<<< HEAD
 	// Rotation is the text rotation in radians, counterclockwise from
 	// the default drawing direction.
 	Rotation float64
@@ -49,6 +50,10 @@ type TextStyle struct {
 	// when (XAlign, YAlign) = (0.5,0.5), the text is rotated about its center,
 	// (0,0) causes the text to rotate around its bottom left corner, etc.
 	XAlign, YAlign float64
+=======
+	// Rotation is the text rotation in radians.
+	Rotation float64
+>>>>>>> 4d511af... Add rotation to draw.TextStyle
 }
 
 // LineStyle describes what a line will look like.
@@ -602,6 +607,7 @@ func (c *Canvas) FillText(sty TextStyle, x, y vg.Length, txt string) {
 
 	c.SetColor(sty.Color)
 
+<<<<<<< HEAD
 	if sty.Rotation != 0 {
 		c.Push()
 		c.Rotate(sty.Rotation)
@@ -614,15 +620,32 @@ func (c *Canvas) FillText(sty TextStyle, x, y vg.Length, txt string) {
 	nl := textNLines(txt)
 	ht := sty.Height(txt)
 	y += ht*vg.Length(sty.YAlign) - sty.Font.Extents().Ascent
+=======
+	c.Push()
+	c.Rotate(sty.Rotation)
+
+	cos := vg.Length(math.Cos(sty.Rotation))
+	sin := vg.Length(math.Sin(sty.Rotation))
+	yprime := y*cos - x*sin
+	xprime := y*sin + x*cos
+
+	nl := textNLines(txt)
+	ht := sty.Height(txt)
+	yprime += ht*vg.Length(yalign) - sty.Font.Extents().Ascent
+>>>>>>> 4d511af... Add rotation to draw.TextStyle
 	for i, line := range strings.Split(txt, "\n") {
 		xoffs := vg.Length(sty.XAlign) * sty.Font.Width(line)
 		n := vg.Length(nl - i)
-		c.FillString(sty.Font, x+xoffs, y+n*sty.Font.Size, line)
+		c.FillString(sty.Font, xprime+xoffs, yprime+n*sty.Font.Size, line)
 	}
 
+<<<<<<< HEAD
 	if sty.Rotation != 0 {
 		c.Pop()
 	}
+=======
+	c.Pop()
+>>>>>>> 4d511af... Add rotation to draw.TextStyle
 }
 
 // Width returns the width of lines of text
