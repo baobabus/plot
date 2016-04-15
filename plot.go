@@ -175,6 +175,13 @@ func (p *Plot) Draw(c draw.Canvas) {
 // is the subset of the given draw area into which
 // the plot data will be drawn.
 func (p *Plot) DataCanvas(da draw.Canvas) draw.Canvas {
+	return padY(p, padX(p, p.DataCanvasWithoutPadding(da)))
+}
+
+// DataCanvas returns a new draw.Canvas that
+// is the subset of the given draw area into which
+// the plot data will be drawn.
+func (p *Plot) DataCanvasWithoutPadding(da draw.Canvas) draw.Canvas {
 	if p.Title.Text != "" {
 		da.Max.Y -= p.Title.Height(p.Title.Text) - p.Title.Font.Extents().Descent
 		da.Max.Y -= p.Title.Padding
@@ -183,7 +190,7 @@ func (p *Plot) DataCanvas(da draw.Canvas) draw.Canvas {
 	x := horizontalAxis{p.X}
 	p.Y.sanitizeRange()
 	y := verticalAxis{p.Y}
-	return padY(p, padX(p, draw.Crop(da, y.size(), x.size(), 0, 0)))
+	return draw.Crop(da, y.size(), 0, x.size(), 0)
 }
 
 // DrawGlyphBoxes draws red outlines around the plot's
