@@ -42,6 +42,19 @@ func New(w, h vg.Length) *Canvas {
 	return c
 }
 
+// New creates a new PDF Canvas in existing PDF document.
+func NewInDoc(doc *pdf.Document, w, h vg.Length) *Canvas {
+	c := &Canvas{
+		doc:         doc,
+		w:           w,
+		h:           h,
+		lineVisible: true,
+	}
+	c.page = c.doc.NewPage(unit(w), unit(h))
+	vg.Initialize(c)
+	return c
+}
+
 func (c *Canvas) Size() (w, h vg.Length) {
 	return c.w, c.h
 }
@@ -100,6 +113,10 @@ func (c *Canvas) FillString(fnt vg.Font, x, y vg.Length, str string) {
 	t.NextLineOffset(unit(x), unit(y))
 	t.Text(str)
 	c.page.DrawText(t)
+}
+
+func (c *Canvas) Close() {
+	c.page.Close()
 }
 
 // pdfPath returns a pdf.Path from a vg.Path.
